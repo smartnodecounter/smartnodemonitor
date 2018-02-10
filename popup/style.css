@@ -18,3 +18,9 @@
 {
 	background-color:yellow;
 }
+li{
+	display:inline-block;
+}
+ul{
+	white-space:nowrap;
+}
