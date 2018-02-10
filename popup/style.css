@@ -1,0 +1,20 @@
+.unknown
+{
+  color:#778899;
+
+}
+.badstate
+{
+  color:red;
+}
+.goodstate
+{
+	color:green;
+}
+.notfound{
+	color:black;
+}
+.alreadyexist
+{
+	background-color:yellow;
+}

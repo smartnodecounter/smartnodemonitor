@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "SmartNode Monitor",
+  "description": "Quick way to monitor your SmartNodes",
+  "version": "1.0.4",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
+  "browser_action": {
+    "default_icon": "icons/SmartCashIcon128.png",
+    "default_popup": "popup/smartnodemonitor.html",
+    "default title": "smartnodemonitor"
+  },
+  "permissions": [
+	"storage",
+    "activeTab",
+    "https://ajax.googleapis.com/",
+		"<all_urls>"
+  ],
+	"web_accessible_resources": [
+		"icons/*.png"
+	]
+}
