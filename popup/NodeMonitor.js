@@ -15,14 +15,14 @@ class NodeMonitorInput extends React.Component
 		}
 	}
 	render(){
-		return React.createElement('input', {type:"search", placeholder:"ip address", value:this.state.value, onChange:this.handleChange, onKeyPress:this.handleSubmit}, null);
+		return React.createElement('input', {type:"search", placeholder:"add IP address here", value:this.state.value, onChange:this.handleChange, onKeyPress:this.handleSubmit}, null);
 	}
 }
 class NodeMonitorItem extends React.Component{
 	constructor(props){
 		super(props);
 		this.deleteClicked = this.deleteClicked.bind(this);
-		this.checkStatus = this.checkStatus.bind(this);	
+		this.checkStatus = this.checkStatus.bind(this);
 	}
 	deleteClicked(){
 		this.props.onDeleteClicked(this.props.text);
@@ -30,18 +30,25 @@ class NodeMonitorItem extends React.Component{
 	checkStatus(){
 		  var xhttp = new XMLHttpRequest();
 			var that = this;
-  		xhttp.onreadystatechange = function() {
+  			xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
-				if (this.responseText == "\"ENABLED\"" || this.responseText == "\"PRE_ENABLED\"")
+				var resJson = JSON.parse(this.responseText);
+				console.log(resJson);
+				if (resJson.status == "ENABLED" || resJson.status == "PRE_ENABLED")
 				{
      			document.getElementById(that.props.text).className = 'goodstate';
 				}
-				else if (this.responseText == ""){
+				else if (typeof resJson.status == 'undefined'){
      			document.getElementById(that.props.text).className = 'notfound';
 				}
 				else{
      			document.getElementById(that.props.text).className = 'badstate';
 				}
+				var m = new Date(resJson.updatetime).toString();
+
+				document.getElementById('nodecount').innerHTML = resJson.count;
+
+				document.getElementById('lastupdated').innerHTML = m;
     	}
 			else{
 				console.log("failed to connect to server");
@@ -60,7 +67,6 @@ class NodeMonitorItem extends React.Component{
 		var crossbutton = React.createElement("img", {src:iconpath, style:buttonStyle, onClick:this.deleteClicked}, null);
 		this.checkStatus();
 		return React.createElement("li", {id:this.props.text, className:this.props.class}, this.props.text, crossbutton);
-		//return React.createElement('li', null, this.props.text);
 	}
 }
 class NodeMonitorList extends React.Component{
@@ -118,7 +124,7 @@ class NodeMonitorList extends React.Component{
 							item.classList.remove('alreadyexist');
 						}
 					}.bind(this), 200);
-				
+
 				}
 			}
 
@@ -150,7 +156,11 @@ class NodeMonitorList extends React.Component{
 	}
 	render(){
 			return React.createElement('div', null,
-												React.createElement('p', null, 'SmartNodes:'),
+												//React.createElement('div', null, 'SmartNodes:'),
+												React.createElement('p', {className:'label'}, "SmartNodes Total: "),
+												React.createElement('div', {id:'nodecount'}, null),
+												React.createElement('p', {className:'label'}, "Last Updated:"),
+												React.createElement('div', {id:'lastupdated'}, null),
 												React.createElement('ul',null, this.state.currentList),
 												React.createElement(NodeMonitorInput, {onEnterPressed:this.addItem}, null)
 

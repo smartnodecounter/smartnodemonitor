@@ -3,7 +3,7 @@
 
   "name": "SmartNode Monitor",
   "description": "Quick way to monitor your SmartNodes",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "browser_action": {
